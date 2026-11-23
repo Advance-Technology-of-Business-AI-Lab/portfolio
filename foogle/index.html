@@ -1,0 +1,100 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="查看 Foogle 工作台在 Web 和 Android 上的功能、截图和验证范围。">
+    <title>Foogle · Web 与 Android 功能</title>
+    <link rel="stylesheet" href="../styles.css">
+    <link rel="stylesheet" href="../demos.css">
+    <script src="../image-preview.js" defer></script>
+</head>
+<body>
+    <a class="skip-link" href="#main">跳到主要内容</a>
+    <header class="site-header">
+        <div class="shell header-inner">
+            <a class="brand" href="../index.html">AI 工程作品集</a>
+            <nav aria-label="页面导航">
+                <a href="#web">Web</a>
+                <a href="#android">Android</a>
+                <a href="#capabilities">功能对照</a>
+            </nav>
+        </div>
+    </header>
+    <main class="shell demo-main" id="main">
+        <header class="demo-heading">
+            <h1>Foogle</h1>
+            <p>从 Agent 发布和会话管理，到审批、工具调用和历史回放。查看桌面 Web 与 Android 安装包上的实际界面，以及各端的支持范围。</p>
+        </header>
+
+        <section class="demo-section" id="web" aria-labelledby="web-title">
+            <h2 id="web-title">Web 工作台</h2>
+            <p>从 Agent 目录打开工具助手、图工作流或 Agent 团队。在会话里提交任务，随后展开调用图查看模型和工具的实际执行节点。</p>
+            <div class="evidence-grid">
+                <figure class="evidence">
+                    <a class="figure-preview" href="../assets/foogle-web-catalog.png" data-image-preview>
+                        <img src="../assets/foogle-web-catalog.png" alt="Web Agent 目录展示 Agent 团队、图工作流和工具助手" width="1280" height="720" loading="lazy">
+                    </a>
+                    <figcaption><strong>Agent 目录</strong><span>三种发布模板的本地验证界面，使用 Mock 模型。</span></figcaption>
+                </figure>
+                <figure class="evidence">
+                    <a class="figure-preview" href="../assets/foogle-turn-details.png" data-image-preview>
+                        <img src="../assets/foogle-turn-details.png" alt="Web 单轮详情显示模型、普通工具、MCP、插件的分类与参数" width="1280" height="720" loading="lazy">
+                    </a>
+                    <figcaption><strong>单轮操作详情</strong><span>查看一轮任务调用了哪些能力，并展开参数和结果。</span></figcaption>
+                </figure>
+            </div>
+        </section>
+
+        <section class="demo-section" id="android" aria-labelledby="android-title">
+            <h2 id="android-title">Android 应用</h2>
+            <p>Android 共用工作台和后端，针对触屏采用全屏表单、纵向节点、系统返回键和文件保存窗口。以下截图取自安装后的 Android 15 模拟器。</p>
+            <div class="evidence-grid">
+                <figure class="evidence">
+                    <a class="figure-preview figure-phone" href="../assets/foogle-android-messages.png" data-image-preview>
+                        <img src="../assets/foogle-android-messages.png" alt="Android 会话显示自动命名、公式、表格、引用、脚注与复制按钮" width="1082" height="2210" loading="lazy">
+                    </a>
+                    <figcaption><strong>会话与富文本</strong><span>自动命名、公式、表格、脚注和原生剪贴板。</span></figcaption>
+                </figure>
+                <figure class="evidence">
+                    <a class="figure-preview figure-phone" href="../assets/foogle-android-loop.png" data-image-preview>
+                        <img src="../assets/foogle-android-loop.png" alt="Android 上的全屏 AgentLoop 画布和节点详情" width="1082" height="2210" loading="lazy">
+                    </a>
+                    <figcaption><strong>原生 App 中的全屏 AgentLoop</strong><span>触控拖动、捏合缩放、播放和节点检查。这张图来自实验画布。</span></figcaption>
+                </figure>
+            </div>
+        </section>
+
+        <section class="demo-section" id="capabilities" aria-labelledby="capabilities-title">
+            <h2 id="capabilities-title">Web 与 Android 功能对照</h2>
+            <p>仓库当前能力清单中的 10 个模块在两端均已开启。下方也列出基础工作台和管理功能，并标明各端的操作差异与验收边界。</p>
+            <table class="capability-table">
+                <thead><tr><th scope="col">功能</th><th scope="col">Web</th><th scope="col">Android</th></tr></thead>
+                <tbody>
+                    <tr><th scope="row">Agent 与会话</th><td>从目录使用工具助手、图工作流或 Agent 团队，浏览会话和任务记录。</td><td>共用已发布 Agent 和账号记录。支持新建、打开和删除会话。</td></tr>
+                    <tr><th scope="row">流式聊天与审批</th><td>流式回复、任务状态、待审批工具、TXT / Markdown 附件与任务产物。</td><td>支持相同任务流程，使用系统文件选择界面。跨端审批仍需专项设备验收。</td></tr>
+                    <tr><th scope="row">富文本消息</th><td>Markdown、公式、代码、表格、引用和脚注。</td><td>表格可横滑，代码用原生剪贴板复制，外链交给系统浏览器。</td></tr>
+                    <tr><th scope="row">会话命名</th><td>手动重命名或请求模型自动命名，历史和侧栏同步。</td><td>同一命名接口。安装包已验证命名、失败重试及系统返回键。</td></tr>
+                    <tr><th scope="row">动态调用图</th><td>模型、工具、MCP、插件节点，支持筛选、布局保存、全屏和单轮详情。</td><td>默认纵向排列，轻点打开全屏节点详情，系统返回键逐层关闭。</td></tr>
+                    <tr><th scope="row">画布操作</th><td>拖动节点、平移、缩放和适应视图。拖动调整显示位置。</td><td>触控拖动、双指缩放、横竖屏与全屏切换，保留布局。</td></tr>
+                    <tr><th scope="row">AgentLoop 拆解与回放</th><td>跟随实时事件，历史回放支持暂停、定位和调速。</td><td>复用回放控件，支持全屏。新增的实时与回放切换仍待新版 APK 复验。</td></tr>
+                    <tr><th scope="row">在线模型调试</th><td>使用临时密钥测试 Gemini、DashScope 或自定义接口，查看流式和工具结果。</td><td>支持同一调试协议，切后台清空临时密钥，键盘避让输入区。</td></tr>
+                    <tr><th scope="row">插件中心</th><td>搜索、安装、更新连接和启停插件，提供 GitHub 只读连接。</td><td>共用账号和插件配置，切后台清除未保存的凭据。</td></tr>
+                    <tr><th scope="row">MCP 中心</th><td>新增连接，发现 HTTP / SSE 工具，逐项授权并查看轨迹。</td><td>共用连接和授权。表单适配触屏，切后台清除未保存的 Token。</td></tr>
+                    <tr><th scope="row">Skills 中心</th><td>创建、编辑、启停和导入导出 SKILL.md。</td><td>从系统文件选择器导入，通过系统保存窗口导出 Markdown。</td></tr>
+                    <tr><th scope="row">Google 登录与绑定</th><td>已配置 OAuth 时可登录或绑定 Google 账号，进入原工作区。</td><td>使用系统账号选择器，需登记签名并配置 HTTPS 后端。真实 Google 授权仍待设备验收。</td></tr>
+                    <tr><th scope="row">管理员工作台</th><td>配置、探测模型连接，设置工具与预算，发布 Agent 版本并查看审计。</td><td>共用管理 API，管理列表适配单列，表单和详情采用全屏布局。</td></tr>
+                    <tr><th scope="row">本地模型与离线问答</th><td>连接 API 所在机器上的模型服务，用于服务器侧 Agent 推理。</td><td>带 Pocket SDK 的离线安装包可导入 GGUF，在设备上进行离线问答。</td></tr>
+                </tbody>
+            </table>
+            <p class="demo-note">功能口径来自 Foogle 的 Web / Android 平台清单和验证记录。界面证据包含协议夹具与 Android 模拟器测试，真实模型验证与设备覆盖按各项记录说明。</p>
+        </section>
+    </main>
+    <dialog class="image-viewer" aria-labelledby="image-viewer-title">
+        <div class="image-viewer-window">
+            <header class="image-viewer-header"><h2 id="image-viewer-title">图片预览</h2><button class="button" type="button" autofocus>关闭图片</button></header>
+            <div class="image-viewer-stage"><img alt=""></div>
+        </div>
+    </dialog>
+</body>
+</html>
