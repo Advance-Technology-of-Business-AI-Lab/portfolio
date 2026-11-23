@@ -4,7 +4,7 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta name="description" content="查看 Foogle Agent 工作台和 Pocket Inference Lab 离线推理运行时的架构、执行轨迹、验证结果与交互回放。">
-    <meta name="theme-color" content="#eef2ed">
+    <meta name="theme-color" content="#f4f6fc">
     <title>AI 工程作品集 · Foogle 与 Pocket Inference Lab</title>
     <link rel="stylesheet" href="./styles.css">
     <link rel="stylesheet" href="./demos.css">
@@ -30,20 +30,19 @@
     <main id="main" class="shell unified-main">
         <section class="hero" aria-labelledby="title">
             <div class="hero-copy">
-                <h1 id="title">从 Agent 工作台<br>到<span>端侧离线推理</span></h1>
-                <p>Foogle 负责发布和执行 Agent，并在调用图里展示每一步。Pocket Inference Lab 让应用在设备上运行模型、调用本地工具和识别图像。</p>
-                <a class="button button-primary" href="#foogle">查看项目</a>
+                <h1 id="title">从 AI 工作台<br>到<span>端侧离线推理</span></h1>
+                <p>看 Foogle 如何组织任务、调用工具并展示过程，再用 Pocket Inference Lab 回放设备上的模型运行记录。</p>
+                <div class="section-links">
+                    <a class="button button-primary" href="#foogle-views">看 Foogle 功能</a>
+                    <a class="button" href="#runtime">体验 Pocket 回放</a>
+                </div>
             </div>
-            <div class="hero-paths" aria-label="两个项目的运行路径">
-                <a class="path" href="#foogle">
-                    <strong>Foogle</strong>
-                    <span>Web / Android → ADK Worker → 调用图</span>
+            <figure class="evidence hero-preview">
+                <a class="figure-preview" href="./assets/foogle-google-reference.jpg" data-image-preview>
+                    <img src="./assets/foogle-google-reference.jpg" alt="Foogle 的 Google 主题首页，蓝紫渐变标题旁是浅蓝、淡紫和浅绿的工作台入口" width="1440" height="900">
                 </a>
-                <a class="path" href="#pocket">
-                    <strong>Pocket Inference Lab</strong>
-                    <span>Android / CLI → C++ Runtime → 本地模型</span>
-                </a>
-            </div>
+                <figcaption><strong>Foogle · Google 主题工作台</strong><span>参考布局的本地演示截图。</span></figcaption>
+            </figure>
         </section>
 
         <section class="section project-section" id="foogle" aria-labelledby="foogle-title">
@@ -64,62 +63,108 @@
                 <p>浏览器关闭后，独立进程可继续执行已领取的任务。重新连接时，界面可通过 SSE 从已读游标续读事件。ADK Runner 按已发布版本调用模型和工具，状态 SDK 将会话状态、事件和平台消息投影写入同一事务。</p>
             </div>
             <section class="demo-section" id="foogle-views" aria-labelledby="foogle-views-title">
-                <h3 id="foogle-views-title">Web 与 Android 界面对照</h3>
-                <p>两端共用界面主题。以下为同一主题下的 Agent 目录和计算器对话，采用各端实际验证截图。</p>
-                <h4 class="platform-example-title">Agent 目录</h4>
-                <div class="platform-pair">
-                    <figure class="evidence platform-evidence" id="web">
-                        <a class="figure-preview" href="./assets/foogle-web-agent-catalog.png" data-image-preview>
-                            <img src="./assets/foogle-web-agent-catalog.png" alt="Web 中的三个 Agent 和桌面侧栏" width="1440" height="1000" loading="lazy">
+                <div class="section-intro" id="web">
+                    <h3 id="foogle-views-title">在 Foogle 里完成一个任务</h3>
+                    <p>这些画面来自本地运行的 Foogle Web，统一使用 Google 主题。截图中的账号、会话和工具数据用于演示。</p>
+                </div>
+                <div class="feature-gallery">
+                    <figure class="evidence feature-card">
+                        <a class="figure-preview" href="./assets/foogle-google-workspace.jpg" data-image-preview>
+                            <img src="./assets/foogle-google-workspace.jpg" alt="当前 Google 主题工作台显示已发布 Agent、会话记录和运行中会话" width="1440" height="900" loading="lazy">
                         </a>
-                        <figcaption><strong>Web · Agent 目录</strong><span>侧栏显示任务与会话，Agent 并列展示。</span></figcaption>
+                        <figcaption><strong>工作台</strong><span>进入当前工作区时，可以查看已发布 Agent、会话记录和运行中的任务，再选择 Agent 开始工作。</span></figcaption>
                     </figure>
-                    <figure class="evidence platform-evidence" id="android">
-                        <a class="figure-preview" href="./assets/foogle-android-catalog.png" data-image-preview>
-                            <img src="./assets/foogle-android-catalog.png" alt="Android 中的同一 Agent 目录，Agent 单列排列" width="1080" height="2400" loading="lazy">
+                    <figure class="evidence feature-card">
+                        <a class="figure-preview" href="./assets/foogle-google-agents.jpg" data-image-preview>
+                            <img src="./assets/foogle-google-agents.jpg" alt="Google 主题的 Agent 目录及三种模板" width="1440" height="900" loading="lazy">
                         </a>
-                        <figcaption><strong>Android · Agent 目录</strong><span>Agent 按单列排列，可通过导航进入会话。</span></figcaption>
+                        <figcaption><strong>Agent 目录</strong><span>从工具助手、图工作流与 Agent 团队中选择任务入口，再按名称、用途或能力筛选。</span></figcaption>
+                    </figure>
+                    <figure class="evidence feature-card">
+                        <a class="figure-preview" href="./assets/foogle-google-chat.jpg" data-image-preview>
+                            <img src="./assets/foogle-google-chat.jpg" alt="Foogle 会话中显示计算结果 391 和表格" width="1440" height="900" loading="lazy">
+                        </a>
+                        <figcaption><strong>会话与任务</strong><span>在一个会话里查看工具结果、任务状态与富文本回复。历史会话可继续、重命名或整理。</span></figcaption>
+                    </figure>
+                    <figure class="evidence feature-card">
+                        <a class="figure-preview" href="./assets/foogle-google-loop.jpg" data-image-preview>
+                            <img src="./assets/foogle-google-loop.jpg" alt="Google 主题的 AgentLoop 实验页" width="1440" height="900" loading="lazy">
+                        </a>
+                        <figcaption><strong>AgentLoop 执行拆解</strong><span>用交互实验查看模型、工具和反馈怎样串起一轮任务。实际任务也可查看调用详情和回放。</span></figcaption>
                     </figure>
                 </div>
-                <h4 class="platform-example-title">计算器工具对话</h4>
-                <div class="platform-pair">
-                    <figure class="evidence platform-evidence">
-                        <a class="figure-preview" href="./assets/foogle-web-calculator.png" data-image-preview>
-                            <img src="./assets/foogle-web-calculator.png" alt="桌面 Web 的计算器对话显示 17 × 23 = 391" width="1440" height="1000" loading="lazy">
+                <div class="section-intro secondary-heading"><h3>配置模型与工具</h3><p>先测试模型，再为 Agent 准备可调用的工具和可复用的工作方法。</p></div>
+                <div class="feature-gallery feature-gallery-extensions">
+                    <figure class="evidence feature-card">
+                        <a class="figure-preview" href="./assets/foogle-google-playground.jpg" data-image-preview>
+                            <img src="./assets/foogle-google-playground.jpg" alt="Foogle 在线调试页显示模型和参数配置" width="1440" height="900" loading="lazy">
                         </a>
-                        <figcaption><strong>Web · 工具对话</strong><span>在桌面会话中调用计算器，返回 391。</span></figcaption>
+                        <figcaption><strong>在线模型调试</strong><span>配置临时模型连接，测试文本和工具能力，再检查调试结果。</span></figcaption>
                     </figure>
-                    <figure class="evidence platform-evidence">
-                        <a class="figure-preview" href="./assets/foogle-android-calculator.png" data-image-preview>
-                            <img src="./assets/foogle-android-calculator.png" alt="Android 应用的计算器对话显示 17 × 23 = 391" width="1080" height="2400" loading="lazy">
+                    <figure class="evidence feature-card">
+                        <a class="figure-preview" href="./assets/foogle-google-plugins.jpg" data-image-preview>
+                            <img src="./assets/foogle-google-plugins.jpg" alt="插件中心显示计算器和 GitHub 插件" width="1440" height="900" loading="lazy">
                         </a>
-                        <figcaption><strong>Android · 工具对话</strong><span>在 Android 验证中完成同一计算，并可打开任务详情。</span></figcaption>
+                        <figcaption><strong>插件中心</strong><span>安装、启停和测试工具插件。本地计算器和 GitHub 只读工具分别配置。</span></figcaption>
                     </figure>
+                    <figure class="evidence feature-card">
+                        <a class="figure-preview" href="./assets/foogle-google-mcp.jpg" data-image-preview>
+                            <img src="./assets/foogle-google-mcp.jpg" alt="MCP 工具目录与可选连接模板" width="1440" height="900" loading="lazy">
+                        </a>
+                        <figcaption><strong>MCP 工具</strong><span>从工具模板开始，发现 HTTP 或 SSE 工具，再决定允许 Agent 使用哪些操作。</span></figcaption>
+                    </figure>
+                    <figure class="evidence feature-card">
+                        <a class="figure-preview" href="./assets/foogle-google-skills.jpg" data-image-preview>
+                            <img src="./assets/foogle-google-skills.jpg" alt="Skills 中心显示技能管理界面" width="1440" height="900" loading="lazy">
+                        </a>
+                        <figcaption><strong>Skills 工作方法</strong><span>将可复用的任务说明保存成技能，按需启用或导入、导出 SKILL.md。</span></figcaption>
+                    </figure>
+                </div>
+                <div class="mobile-showcase" id="android">
+                    <figure class="evidence feature-card phone-showcase">
+                        <a class="figure-preview" href="./assets/foogle-google-mobile.jpg" data-image-preview>
+                            <img src="./assets/foogle-google-mobile.jpg" alt="手机浏览器中的 Google 主题 Agent 目录" width="412" height="860" loading="lazy">
+                        </a>
+                        <figcaption><strong>移动 Web · Google 主题</strong><span>同一 Agent 目录在手机宽度下的布局。</span></figcaption>
+                    </figure>
+                    <div class="platform-copy">
+                        <h3>Web 与 Android</h3>
+                        <p>桌面与移动浏览器共享界面和功能。Android 原生应用复用同一客户端与后端，并为触控和系统操作做了适配。</p>
+                        <ul class="native-features">
+                            <li><strong>触屏操作</strong><span>全屏调用详情、双指缩放、系统返回键。</span></li>
+                            <li><strong>系统能力</strong><span>原生剪贴板、系统浏览器和文件选择保存。</span></li>
+                            <li><strong>设备验证</strong><span>安装包的验证范围见下方说明。此处图为移动 Web。</span></li>
+                        </ul>
+                    </div>
                 </div>
             </section>
             <section class="demo-section" id="capabilities" aria-labelledby="capabilities-title">
-                <h3 id="capabilities-title">Web 与 Android 功能对照</h3>
-                <p>仓库当前能力清单中的 10 个模块在两端均已开启。下方也列出基础工作台和管理功能，并标明各端的操作差异与验收边界。</p>
-                <table class="capability-table">
-                    <thead><tr><th scope="col">功能</th><th scope="col">Web</th><th scope="col">Android</th></tr></thead>
-                    <tbody>
-                        <tr><th scope="row">Agent 与会话</th><td>从目录使用工具助手、图工作流或 Agent 团队，浏览会话和任务记录。</td><td>共用已发布 Agent 和账号记录。支持新建、打开和删除会话。</td></tr>
-                        <tr><th scope="row">流式聊天与审批</th><td>流式回复、任务状态、待审批工具、TXT / Markdown 附件与任务产物。</td><td>支持相同任务流程，使用系统文件选择界面。跨端审批仍需专项设备验收。</td></tr>
-                        <tr><th scope="row">富文本消息</th><td>Markdown、公式、代码、表格、引用和脚注。</td><td>表格可横滑，代码用原生剪贴板复制，外链交给系统浏览器。</td></tr>
-                        <tr><th scope="row">会话命名</th><td>手动重命名或请求模型自动命名，历史和侧栏同步。</td><td>同一命名接口。安装包已验证命名、失败重试及系统返回键。</td></tr>
-                        <tr><th scope="row">动态调用图</th><td>模型、工具、MCP、插件节点，支持筛选、布局保存、全屏和单轮详情。</td><td>默认纵向排列，轻点打开全屏节点详情，系统返回键逐层关闭。</td></tr>
-                        <tr><th scope="row">画布操作</th><td>拖动节点、平移、缩放和适应视图。拖动调整显示位置。</td><td>触控拖动、双指缩放、横竖屏与全屏切换，保留布局。</td></tr>
-                        <tr><th scope="row">AgentLoop 拆解与回放</th><td>跟随实时事件，历史回放支持暂停、定位和调速。</td><td>复用回放控件，支持全屏。新增的实时与回放切换仍待新版 APK 复验。</td></tr>
-                        <tr><th scope="row">在线模型调试</th><td>使用临时密钥测试 Gemini、DashScope 或自定义接口，查看流式和工具结果。</td><td>支持同一调试协议，切后台清空临时密钥，键盘避让输入区。</td></tr>
-                        <tr><th scope="row">插件中心</th><td>搜索、安装、更新连接和启停插件，提供 GitHub 只读连接。</td><td>共用账号和插件配置，切后台清除未保存的凭据。</td></tr>
-                        <tr><th scope="row">MCP 中心</th><td>新增连接，发现 HTTP / SSE 工具，逐项授权并查看轨迹。</td><td>共用连接和授权。表单适配触屏，切后台清除未保存的 Token。</td></tr>
-                        <tr><th scope="row">Skills 中心</th><td>创建、编辑、启停和导入导出 SKILL.md。</td><td>从系统文件选择器导入，通过系统保存窗口导出 Markdown。</td></tr>
-                        <tr><th scope="row">Google 登录与绑定</th><td>已配置 OAuth 时可登录或绑定 Google 账号，进入原工作区。</td><td>使用系统账号选择器，需登记签名并配置 HTTPS 后端。真实 Google 授权仍待设备验收。</td></tr>
-                        <tr><th scope="row">管理员工作台</th><td>配置、探测模型连接，设置工具与预算，发布 Agent 版本并查看审计。</td><td>共用管理 API，管理列表适配单列，表单和详情采用全屏布局。</td></tr>
-                        <tr><th scope="row">本地模型与离线问答</th><td>连接 API 所在机器上的模型服务，用于服务器侧 Agent 推理。</td><td>带 Pocket SDK 的离线安装包可导入 GGUF，在设备上进行离线问答。</td></tr>
-                    </tbody>
-                </table>
-                <p class="demo-note">功能口径来自 Foogle 的 Web / Android 平台清单和验证记录。界面证据包含协议夹具与 Android 模拟器测试，真实模型验证与设备覆盖按各项记录说明。</p>
+                <details class="capability-details">
+                    <summary id="capabilities-title">查看 Web 与 Android 完整功能对照</summary>
+                    <div class="capability-content">
+                        <p>仓库当前能力清单中的 10 个模块在两端均已开启。下方也列出基础工作台和管理功能，并标明各端的操作差异与验收边界。</p>
+                        <table class="capability-table">
+                            <thead><tr><th scope="col">功能</th><th scope="col">Web</th><th scope="col">Android</th></tr></thead>
+                            <tbody>
+                                <tr><th scope="row">Agent 与会话</th><td>从目录使用工具助手、图工作流或 Agent 团队，浏览会话和任务记录。</td><td>共用已发布 Agent 和账号记录。支持新建、打开和删除会话。</td></tr>
+                                <tr><th scope="row">流式聊天与审批</th><td>流式回复、任务状态、待审批工具、TXT / Markdown 附件与任务产物。</td><td>支持相同任务流程，使用系统文件选择界面。跨端审批仍需专项设备验收。</td></tr>
+                                <tr><th scope="row">富文本消息</th><td>Markdown、公式、代码、表格、引用和脚注。</td><td>表格可横滑，代码用原生剪贴板复制，外链交给系统浏览器。</td></tr>
+                                <tr><th scope="row">会话命名</th><td>手动重命名或请求模型自动命名，历史和侧栏同步。</td><td>同一命名接口。安装包已验证命名、失败重试及系统返回键。</td></tr>
+                                <tr><th scope="row">动态调用图</th><td>模型、工具、MCP、插件节点，支持筛选、布局保存、全屏和单轮详情。</td><td>默认纵向排列，轻点打开全屏节点详情，系统返回键逐层关闭。</td></tr>
+                                <tr><th scope="row">画布操作</th><td>拖动节点、平移、缩放和适应视图。拖动调整显示位置。</td><td>触控拖动、双指缩放、横竖屏与全屏切换，保留布局。</td></tr>
+                                <tr><th scope="row">AgentLoop 拆解与回放</th><td>跟随实时事件，历史回放支持暂停、定位和调速。</td><td>复用回放控件，支持全屏。新增的实时与回放切换仍待新版 APK 复验。</td></tr>
+                                <tr><th scope="row">在线模型调试</th><td>使用临时密钥测试 Gemini、DashScope 或自定义接口，查看流式和工具结果。</td><td>支持同一调试协议，切后台清空临时密钥，键盘避让输入区。</td></tr>
+                                <tr><th scope="row">插件中心</th><td>搜索、安装、更新连接和启停插件，提供 GitHub 只读连接。</td><td>共用账号和插件配置，切后台清除未保存的凭据。</td></tr>
+                                <tr><th scope="row">MCP 中心</th><td>新增连接，发现 HTTP / SSE 工具，逐项授权并查看轨迹。</td><td>共用连接和授权。表单适配触屏，切后台清除未保存的 Token。</td></tr>
+                                <tr><th scope="row">Skills 中心</th><td>创建、编辑、启停和导入导出 SKILL.md。</td><td>从系统文件选择器导入，通过系统保存窗口导出 Markdown。</td></tr>
+                                <tr><th scope="row">Google 登录与绑定</th><td>已配置 OAuth 时可登录或绑定 Google 账号，进入原工作区。</td><td>使用系统账号选择器，需登记签名并配置 HTTPS 后端。真实 Google 授权仍待设备验收。</td></tr>
+                                <tr><th scope="row">管理员工作台</th><td>配置、探测模型连接，设置工具与预算，发布 Agent 版本并查看审计。</td><td>共用管理 API，管理列表适配单列，表单和详情采用全屏布局。</td></tr>
+                                <tr><th scope="row">本地模型与离线问答</th><td>连接 API 所在机器上的模型服务，用于服务器侧 Agent 推理。</td><td>带 Pocket SDK 的离线安装包可导入 GGUF，在设备上进行离线问答。</td></tr>
+                            </tbody>
+                        </table>
+                        <p class="demo-note">功能口径来自 Foogle 的 Web / Android 平台清单和验证记录。界面证据包含协议夹具与 Android 模拟器测试，真实模型验证与设备覆盖按各项记录说明。</p>
+                    </div>
+                </details>
             </section>
             <div class="verification-note">
                 <h3>验证范围</h3>
