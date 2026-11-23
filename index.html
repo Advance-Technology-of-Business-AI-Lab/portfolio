@@ -3,10 +3,11 @@
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <meta name="description" content="浏览 Foogle Agent 工作台和 Pocket Inference Lab 离线推理运行时，查看调用图、本地模型联调与交互回放。">
+    <meta name="description" content="查看 Foogle Agent 工作台和 Pocket Inference Lab 离线推理运行时的架构、执行轨迹、验证结果与交互回放。">
     <meta name="theme-color" content="#eef2ed">
     <title>AI 工程作品集 · Foogle 与 Pocket Inference Lab</title>
     <link rel="stylesheet" href="./styles.css">
+    <script src="./image-preview.js" defer></script>
 </head>
 <body>
     <a class="skip-link" href="#main">跳到主要内容</a>
@@ -14,7 +15,8 @@
         <div class="shell header-inner">
             <a class="brand" href="./index.html">AI 工程作品集</a>
             <nav aria-label="页面导航">
-                <a href="#projects">项目</a>
+                <a href="#foogle">Foogle</a>
+                <a href="#pocket">Pocket</a>
                 <a href="#integration">联调</a>
                 <a href="#review">源码审阅</a>
             </nav>
@@ -25,8 +27,8 @@
         <section class="hero" aria-labelledby="title">
             <div class="hero-copy">
                 <h1 id="title">从 Agent 工作台<br>到<span>端侧离线推理</span></h1>
-                <p>在 Foogle 追踪一次 Agent 的模型与工具调用，在 Pocket Inference Lab 查看同类工具调用如何在设备上完成。</p>
-                <a class="button button-primary" href="#projects">查看项目演示</a>
+                <p>Foogle 负责发布和执行 Agent，并在调用图里展示每一步。Pocket Inference Lab 让应用在设备上运行模型、调用本地工具和识别图像。</p>
+                <a class="button button-primary" href="#foogle">查看项目</a>
             </div>
             <div class="hero-paths" aria-label="两个项目的运行路径">
                 <a class="path" href="#foogle">
@@ -40,39 +42,113 @@
             </div>
         </section>
 
-        <section class="section" id="projects" aria-labelledby="projects-title">
-            <h2 id="projects-title">项目演示</h2>
-            <div class="project-grid">
-                <article class="project" id="foogle" aria-labelledby="foogle-title">
-                    <a class="project-media" href="./assets/foogle-call-graph.png" aria-label="查看 Foogle 调用图原图">
-                        <img src="./assets/foogle-call-graph.png" alt="Foogle 调用图依次显示第一次模型调用、calculator 工具和第二次模型调用" width="1280" height="720">
+        <section class="section project-section" id="foogle" aria-labelledby="foogle-title">
+            <header class="project-heading">
+                <p class="project-type">Web / Android · Agent 编排与运行追踪</p>
+                <h2 id="foogle-title">Foogle</h2>
+                <p>管理员配置模型、工具和调用预算，再发布 Agent 版本。成员在工作台发起任务、处理工具审批，并通过调用图查看模型、工具、MCP 和插件的参数与结果。</p>
+            </header>
+            <div class="detail-card">
+                <h3>云端任务怎样执行</h3>
+                <ol class="architecture" aria-label="Foogle 任务执行路径">
+                    <li><strong>Web / Android</strong><span>React 共享客户端</span></li>
+                    <li><strong>FastAPI</strong><span>鉴权、提交任务、读取事件</span></li>
+                    <li><strong>PostgreSQL</strong><span>会话、队列、租约与执行事件</span></li>
+                    <li><strong>独立 Worker</strong><span>领取任务并驱动 ADK Runner</span></li>
+                </ol>
+                <p>浏览器关闭后，独立进程可继续执行已领取的任务。重新连接时，界面可通过 SSE 从已读游标续读事件。ADK Runner 按已发布版本调用模型和工具，状态 SDK 将会话状态、事件和平台消息投影写入同一事务。</p>
+            </div>
+            <div class="evidence-grid">
+                <figure class="evidence">
+                    <a class="figure-preview" href="./assets/foogle-call-graph.png" data-image-preview>
+                        <img src="./assets/foogle-call-graph.png" alt="Foogle 调用图依次出现模型调用一、calculator 工具和模型调用二" width="1280" height="720" loading="lazy">
                     </a>
-                    <div class="project-body">
-                        <p class="project-type">Web / Android · Agent 编排</p>
-                        <h3 id="foogle-title">Foogle</h3>
-                        <p>基于 Google ADK 的 Agent 工作台。独立 worker 执行任务，用户可以在 Web 调用图中查看模型和工具的输入、输出与状态。</p>
-                        <a class="button" href="./assets/foogle-call-graph.png">查看调用图</a>
-                    </div>
-                </article>
+                    <figcaption><strong>调用图</strong><span>查看模型怎样选中计算器，并用工具结果生成回复。</span></figcaption>
+                </figure>
+                <figure class="evidence">
+                    <a class="figure-preview" href="./assets/foogle-turn-details.png" data-image-preview>
+                        <img src="./assets/foogle-turn-details.png" alt="本轮操作详情按普通工具、MCP、插件和搜索分类，可展开查看调用参数和结果" width="1280" height="720" loading="lazy">
+                    </a>
+                    <figcaption><strong>操作详情</strong><span>按调用类型筛选并检查输入和返回值。图中为界面验证样例。</span></figcaption>
+                </figure>
+            </div>
+            <div class="verification-note">
+                <h3>验证范围</h3>
+                <p>仓库记录了 Web 上的真实 DashScope <code>qwen-plus</code> 工具调用闭环，以及 Android 15 模拟器上的安装、真实工具对话和重开后的历史恢复。Web 全栈回归还使用 Mock 模型覆盖确定性流程。物理手机和 iOS 的完整验收仍待完成。</p>
+            </div>
+        </section>
 
-                <article class="project" id="pocket" aria-labelledby="pocket-title">
-                    <a class="project-media" href="./pocket/index.html" aria-label="打开 Pocket Inference Lab 交互回放">
-                        <img src="./assets/pocket-walkthrough.png" alt="Pocket 网页演示展示本地工具调用的四个步骤，可切换纯文本场景" width="2880" height="3000">
+        <section class="section project-section" id="pocket" aria-labelledby="pocket-title">
+            <header class="project-heading">
+                <p class="project-type">Android SDK / 桌面 CLI · 端侧推理</p>
+                <h2 id="pocket-title">Pocket Inference Lab</h2>
+                <p>Android SDK 通过 JNI 调用 C++ 运行时，桌面 CLI 共用同一套 Session API。设备通过 llama.cpp 载入本地 GGUF 权重，流式输出文本。图像问答需要视觉模型及与之匹配的 <code>mmproj</code> 投影文件。</p>
+                <a class="button" href="./pocket/index.html">打开交互回放</a>
+            </header>
+            <figure class="evidence architecture-figure">
+                <a class="figure-preview" href="./assets/pocket-offline-flow.png" data-image-preview>
+                    <img src="./assets/pocket-offline-flow.png" alt="离线推理流程示意图，Android 和桌面入口共用 C++ Session，分别执行纯文本、工具调用与图像问答" width="1560" height="1286" loading="lazy">
+                </a>
+                <figcaption><strong>离线推理流程</strong><span>从宿主应用输入，到设备上执行模型和工具，再到流式输出与指标。</span></figcaption>
+            </figure>
+            <div class="capabilities">
+                <section class="detail-card">
+                    <h3>文本生成</h3>
+                    <p>模型权重已在设备上时，运行时可以在断网状态下生成回复。Android 和桌面入口都能记录首段输出延迟和生成速度。</p>
+                </section>
+                <section class="detail-card">
+                    <h3>本地工具</h3>
+                    <p>模型从已注册工具中提出调用，运行时校验工具名和参数，宿主应用负责权限与执行。工具结果再交给模型生成回答。</p>
+                </section>
+                <section class="detail-card">
+                    <h3>图像问答</h3>
+                    <p>视觉模型和投影文件在本地编码所选图片。验证使用同一个问题识别不同颜色的样例，并检查回答是否随图片变化。</p>
+                </section>
+            </div>
+            <div class="evidence-grid">
+                <figure class="evidence">
+                    <a class="figure-preview figure-phone" href="./assets/pocket-android-tools.png" data-image-preview>
+                        <img src="./assets/pocket-android-tools.png" alt="Android 控制台界面示意，展示飞行模式、lookup_note 调用和 Cedar-Guest 文本结果" width="1236" height="3000" loading="lazy">
                     </a>
-                    <div class="project-body">
-                        <p class="project-type">Android SDK / 桌面 CLI · 端侧推理</p>
-                        <h3 id="pocket-title">Pocket Inference Lab</h3>
-                        <p>基于 C++ 和 llama.cpp 的本地 GGUF 运行时。用浏览器逐步回放工具调用，查看运行时怎样校验请求、交给宿主应用执行，再生成回答。</p>
-                        <a class="button" href="./pocket/index.html">打开交互回放</a>
+                    <figcaption><strong>Android 本地工具</strong><span>显示飞行模式、工具轨迹和回答。截图按控制台布局绘制，图中数值为桌面样本。</span></figcaption>
+                </figure>
+                <figure class="evidence">
+                    <a class="figure-preview figure-phone" href="./assets/pocket-android-image.png" data-image-preview>
+                        <img src="./assets/pocket-android-image.png" alt="Android 控制台界面示意，展示选中的本地图像、图像问答回复和运行指标" width="1236" height="3000" loading="lazy">
+                    </a>
+                    <figcaption><strong>Android 图像问答</strong><span>展示本地图像输入、模型回复和指标。验证数据见下方环境说明。</span></figcaption>
+                </figure>
+            </div>
+            <div class="validation">
+                <h3>离线验证结果</h3>
+                <div class="validation-grid">
+                    <div class="detail-card">
+                        <h4>桌面 Linux · Gemma 4 E2B IT Q4_0</h4>
+                        <p>Intel Core i7-14700，4 个 CPU 线程，2,048-token 上下文，桌面样本。</p>
+                        <dl class="measurements">
+                            <div><dt>文本首段输出</dt><dd>182 ms</dd></div>
+                            <div><dt>持续解码速度</dt><dd>18.5 tok/s</dd></div>
+                            <div><dt>LLM 评测通过</dt><dd>5 / 5</dd></div>
+                        </dl>
                     </div>
-                </article>
+                    <div class="detail-card">
+                        <h4>Android 15 模拟器 · 飞行模式</h4>
+                        <p>x86_64 / API 35，关闭 Wi-Fi 和移动数据。各场景使用记录中的独立样本。</p>
+                        <dl class="measurements">
+                            <div><dt>Gemma 3 文本首段</dt><dd>0.47 s</dd></div>
+                            <div><dt>Gemma 3 工具回答首段</dt><dd>1.90 s</dd></div>
+                            <div><dt>SmolVLM 红 / 蓝图识别</dt><dd>5.85 / 8.67 s</dd></div>
+                        </dl>
+                    </div>
+                </div>
+                <p>这些数值来自桌面和模拟器测试。真机的持续性能、内存与发热仍需用目标设备验证。</p>
             </div>
         </section>
 
         <section class="integration section" id="integration" aria-labelledby="integration-title">
             <div>
-                <h2 id="integration-title">用本地 Gemma 跑通一次 Agent 调用</h2>
-                <p>本地联调时，Foogle 通过 OpenAI 兼容接口连接由 <code>llama-server</code> 提供的 Gemma 4 E2B 模型，并在工作台里记录工具调用和流式回复。</p>
+                <h2 id="integration-title">Foogle 接入本地 Gemma</h2>
+                <p>Foogle 通过 OpenAI 兼容接口连接 <code>llama-server</code> 上的 Gemma 4 E2B。模型提出计算器调用，Foogle 的 Agent 执行工具，浏览器收到了流式回复，并在调用图中显示 <code>calculator</code> 节点。</p>
             </div>
             <ol class="trace" aria-label="本地联调步骤">
                 <li><span>发送任务</span><code>17 × 23</code></li>
@@ -91,5 +167,15 @@
             <a class="button" href="https://github.com/Advance-Technology-of-Business-AI-Lab/portfolio/issues/new?title=%E6%BA%90%E7%A0%81%E5%AE%A1%E9%98%85%E7%94%B3%E8%AF%B7">前往 GitHub 申请</a>
         </div>
     </footer>
+
+    <dialog class="image-viewer" aria-labelledby="image-viewer-title">
+        <div class="image-viewer-window">
+            <header class="image-viewer-header">
+                <h2 id="image-viewer-title">图片预览</h2>
+                <button class="button" type="button" autofocus>关闭图片</button>
+            </header>
+            <div class="image-viewer-stage"><img alt=""></div>
+        </div>
+    </dialog>
 </body>
 </html>
