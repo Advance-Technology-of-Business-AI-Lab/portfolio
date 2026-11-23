@@ -1,0 +1,95 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="浏览 Foogle Agent 工作台和 Pocket Inference Lab 离线推理运行时，查看调用图、本地模型联调与交互回放。">
+    <meta name="theme-color" content="#eef2ed">
+    <title>AI 工程作品集 · Foogle 与 Pocket Inference Lab</title>
+    <link rel="stylesheet" href="./styles.css">
+</head>
+<body>
+    <a class="skip-link" href="#main">跳到主要内容</a>
+    <header class="site-header">
+        <div class="shell header-inner">
+            <a class="brand" href="./index.html">AI 工程作品集</a>
+            <nav aria-label="页面导航">
+                <a href="#projects">项目</a>
+                <a href="#integration">联调</a>
+                <a href="#review">源码审阅</a>
+            </nav>
+        </div>
+    </header>
+
+    <main id="main" class="shell">
+        <section class="hero" aria-labelledby="title">
+            <div class="hero-copy">
+                <h1 id="title">从 Agent 工作台<br>到<span>端侧离线推理</span></h1>
+                <p>在 Foogle 追踪一次 Agent 的模型与工具调用，在 Pocket Inference Lab 查看同类工具调用如何在设备上完成。</p>
+                <a class="button button-primary" href="#projects">查看项目演示</a>
+            </div>
+            <div class="hero-paths" aria-label="两个项目的运行路径">
+                <a class="path" href="#foogle">
+                    <strong>Foogle</strong>
+                    <span>Web / Android → ADK Worker → 调用图</span>
+                </a>
+                <a class="path" href="#pocket">
+                    <strong>Pocket Inference Lab</strong>
+                    <span>Android / CLI → C++ Runtime → 本地模型</span>
+                </a>
+            </div>
+        </section>
+
+        <section class="section" id="projects" aria-labelledby="projects-title">
+            <h2 id="projects-title">项目演示</h2>
+            <div class="project-grid">
+                <article class="project" id="foogle" aria-labelledby="foogle-title">
+                    <a class="project-media" href="./assets/foogle-call-graph.png" aria-label="查看 Foogle 调用图原图">
+                        <img src="./assets/foogle-call-graph.png" alt="Foogle 调用图依次显示第一次模型调用、calculator 工具和第二次模型调用" width="1280" height="720">
+                    </a>
+                    <div class="project-body">
+                        <p class="project-type">Web / Android · Agent 编排</p>
+                        <h3 id="foogle-title">Foogle</h3>
+                        <p>基于 Google ADK 的 Agent 工作台。独立 worker 执行任务，用户可以在 Web 调用图中查看模型和工具的输入、输出与状态。</p>
+                        <a class="button" href="./assets/foogle-call-graph.png">查看调用图</a>
+                    </div>
+                </article>
+
+                <article class="project" id="pocket" aria-labelledby="pocket-title">
+                    <a class="project-media" href="./pocket/index.html" aria-label="打开 Pocket Inference Lab 交互回放">
+                        <img src="./assets/pocket-walkthrough.png" alt="Pocket 网页演示展示本地工具调用的四个步骤，可切换纯文本场景" width="2880" height="3000">
+                    </a>
+                    <div class="project-body">
+                        <p class="project-type">Android SDK / 桌面 CLI · 端侧推理</p>
+                        <h3 id="pocket-title">Pocket Inference Lab</h3>
+                        <p>基于 C++ 和 llama.cpp 的本地 GGUF 运行时。用浏览器逐步回放工具调用，查看运行时怎样校验请求、交给宿主应用执行，再生成回答。</p>
+                        <a class="button" href="./pocket/index.html">打开交互回放</a>
+                    </div>
+                </article>
+            </div>
+        </section>
+
+        <section class="integration section" id="integration" aria-labelledby="integration-title">
+            <div>
+                <h2 id="integration-title">用本地 Gemma 跑通一次 Agent 调用</h2>
+                <p>本地联调时，Foogle 通过 OpenAI 兼容接口连接由 <code>llama-server</code> 提供的 Gemma 4 E2B 模型，并在工作台里记录工具调用和流式回复。</p>
+            </div>
+            <ol class="trace" aria-label="本地联调步骤">
+                <li><span>发送任务</span><code>17 × 23</code></li>
+                <li><span>调用工具</span><code>calculator</code></li>
+                <li><span>返回结果</span><code>391</code></li>
+            </ol>
+        </section>
+    </main>
+
+    <footer class="site-footer" id="review">
+        <div class="shell footer-inner">
+            <div>
+                <h2>申请源码审阅</h2>
+                <p>在作品集仓库开一个 Issue，注明想看的项目和审阅用途。Issue 会公开显示，提交时请只填写愿意公开的信息。</p>
+            </div>
+            <a class="button" href="https://github.com/Advance-Technology-of-Business-AI-Lab/portfolio/issues/new?title=%E6%BA%90%E7%A0%81%E5%AE%A1%E9%98%85%E7%94%B3%E8%AF%B7">前往 GitHub 申请</a>
+        </div>
+    </footer>
+</body>
+</html>
