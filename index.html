@@ -7,23 +7,27 @@
     <meta name="theme-color" content="#eef2ed">
     <title>AI 工程作品集 · Foogle 与 Pocket Inference Lab</title>
     <link rel="stylesheet" href="./styles.css">
+    <link rel="stylesheet" href="./demos.css">
     <script src="./image-preview.js" defer></script>
+    <script src="./pocket/replay-data.js" defer></script>
+    <script src="./pocket/demo.js" defer></script>
 </head>
 <body>
     <a class="skip-link" href="#main">跳到主要内容</a>
     <header class="site-header">
         <div class="shell header-inner">
-            <a class="brand" href="./index.html">AI 工程作品集</a>
+            <a class="brand" href="#main">AI 工程作品集</a>
             <nav aria-label="页面导航">
                 <a href="#foogle">Foogle</a>
                 <a href="#pocket">Pocket</a>
+                <a href="#runtime">运行回放</a>
                 <a href="#integration">联调</a>
                 <a href="#review">源码审阅</a>
             </nav>
         </div>
     </header>
 
-    <main id="main" class="shell">
+    <main id="main" class="shell unified-main">
         <section class="hero" aria-labelledby="title">
             <div class="hero-copy">
                 <h1 id="title">从 Agent 工作台<br>到<span>端侧离线推理</span></h1>
@@ -47,7 +51,7 @@
                 <p class="project-type">Web / Android · Agent 编排与运行追踪</p>
                 <h2 id="foogle-title">Foogle</h2>
                 <p>管理员配置模型、工具和调用预算，再发布 Agent 版本。成员在工作台发起任务、处理工具审批，并通过调用图查看模型、工具、MCP 和插件的参数与结果。</p>
-                <a class="button" href="./foogle/index.html">查看 Web 与 Android 全功能</a>
+                <div class="section-links"><a class="button" href="#foogle-views">查看 Web 与 Android</a><a class="button" href="#capabilities">功能对照</a></div>
             </header>
             <div class="detail-card">
                 <h3>云端任务怎样执行</h3>
@@ -59,20 +63,64 @@
                 </ol>
                 <p>浏览器关闭后，独立进程可继续执行已领取的任务。重新连接时，界面可通过 SSE 从已读游标续读事件。ADK Runner 按已发布版本调用模型和工具，状态 SDK 将会话状态、事件和平台消息投影写入同一事务。</p>
             </div>
-            <div class="evidence-grid">
-                <figure class="evidence">
-                    <a class="figure-preview" href="./assets/foogle-call-graph.png" data-image-preview>
-                        <img src="./assets/foogle-call-graph.png" alt="Foogle 调用图依次出现模型调用一、calculator 工具和模型调用二" width="1280" height="720" loading="lazy">
-                    </a>
-                    <figcaption><strong>调用图</strong><span>查看模型怎样选中计算器，并用工具结果生成回复。</span></figcaption>
-                </figure>
-                <figure class="evidence">
-                    <a class="figure-preview" href="./assets/foogle-turn-details.png" data-image-preview>
-                        <img src="./assets/foogle-turn-details.png" alt="本轮操作详情按普通工具、MCP、插件和搜索分类，可展开查看调用参数和结果" width="1280" height="720" loading="lazy">
-                    </a>
-                    <figcaption><strong>操作详情</strong><span>按调用类型筛选并检查输入和返回值。图中为界面验证样例。</span></figcaption>
-                </figure>
-            </div>
+            <section class="demo-section" id="foogle-views" aria-labelledby="foogle-views-title">
+                <h3 id="foogle-views-title">Web 与 Android 界面对照</h3>
+                <p>两端共用界面主题。以下为同一主题下的 Agent 目录和计算器对话，采用各端实际验证截图。</p>
+                <h4 class="platform-example-title">Agent 目录</h4>
+                <div class="platform-pair">
+                    <figure class="evidence platform-evidence" id="web">
+                        <a class="figure-preview" href="./assets/foogle-web-agent-catalog.png" data-image-preview>
+                            <img src="./assets/foogle-web-agent-catalog.png" alt="Web 中的三个 Agent 和桌面侧栏" width="1440" height="1000" loading="lazy">
+                        </a>
+                        <figcaption><strong>Web · Agent 目录</strong><span>侧栏显示任务与会话，Agent 并列展示。</span></figcaption>
+                    </figure>
+                    <figure class="evidence platform-evidence" id="android">
+                        <a class="figure-preview" href="./assets/foogle-android-catalog.png" data-image-preview>
+                            <img src="./assets/foogle-android-catalog.png" alt="Android 中的同一 Agent 目录，Agent 单列排列" width="1080" height="2400" loading="lazy">
+                        </a>
+                        <figcaption><strong>Android · Agent 目录</strong><span>Agent 按单列排列，可通过导航进入会话。</span></figcaption>
+                    </figure>
+                </div>
+                <h4 class="platform-example-title">计算器工具对话</h4>
+                <div class="platform-pair">
+                    <figure class="evidence platform-evidence">
+                        <a class="figure-preview" href="./assets/foogle-web-calculator.png" data-image-preview>
+                            <img src="./assets/foogle-web-calculator.png" alt="桌面 Web 的计算器对话显示 17 × 23 = 391" width="1440" height="1000" loading="lazy">
+                        </a>
+                        <figcaption><strong>Web · 工具对话</strong><span>在桌面会话中调用计算器，返回 391。</span></figcaption>
+                    </figure>
+                    <figure class="evidence platform-evidence">
+                        <a class="figure-preview" href="./assets/foogle-android-calculator.png" data-image-preview>
+                            <img src="./assets/foogle-android-calculator.png" alt="Android 应用的计算器对话显示 17 × 23 = 391" width="1080" height="2400" loading="lazy">
+                        </a>
+                        <figcaption><strong>Android · 工具对话</strong><span>在 Android 验证中完成同一计算，并可打开任务详情。</span></figcaption>
+                    </figure>
+                </div>
+            </section>
+            <section class="demo-section" id="capabilities" aria-labelledby="capabilities-title">
+                <h3 id="capabilities-title">Web 与 Android 功能对照</h3>
+                <p>仓库当前能力清单中的 10 个模块在两端均已开启。下方也列出基础工作台和管理功能，并标明各端的操作差异与验收边界。</p>
+                <table class="capability-table">
+                    <thead><tr><th scope="col">功能</th><th scope="col">Web</th><th scope="col">Android</th></tr></thead>
+                    <tbody>
+                        <tr><th scope="row">Agent 与会话</th><td>从目录使用工具助手、图工作流或 Agent 团队，浏览会话和任务记录。</td><td>共用已发布 Agent 和账号记录。支持新建、打开和删除会话。</td></tr>
+                        <tr><th scope="row">流式聊天与审批</th><td>流式回复、任务状态、待审批工具、TXT / Markdown 附件与任务产物。</td><td>支持相同任务流程，使用系统文件选择界面。跨端审批仍需专项设备验收。</td></tr>
+                        <tr><th scope="row">富文本消息</th><td>Markdown、公式、代码、表格、引用和脚注。</td><td>表格可横滑，代码用原生剪贴板复制，外链交给系统浏览器。</td></tr>
+                        <tr><th scope="row">会话命名</th><td>手动重命名或请求模型自动命名，历史和侧栏同步。</td><td>同一命名接口。安装包已验证命名、失败重试及系统返回键。</td></tr>
+                        <tr><th scope="row">动态调用图</th><td>模型、工具、MCP、插件节点，支持筛选、布局保存、全屏和单轮详情。</td><td>默认纵向排列，轻点打开全屏节点详情，系统返回键逐层关闭。</td></tr>
+                        <tr><th scope="row">画布操作</th><td>拖动节点、平移、缩放和适应视图。拖动调整显示位置。</td><td>触控拖动、双指缩放、横竖屏与全屏切换，保留布局。</td></tr>
+                        <tr><th scope="row">AgentLoop 拆解与回放</th><td>跟随实时事件，历史回放支持暂停、定位和调速。</td><td>复用回放控件，支持全屏。新增的实时与回放切换仍待新版 APK 复验。</td></tr>
+                        <tr><th scope="row">在线模型调试</th><td>使用临时密钥测试 Gemini、DashScope 或自定义接口，查看流式和工具结果。</td><td>支持同一调试协议，切后台清空临时密钥，键盘避让输入区。</td></tr>
+                        <tr><th scope="row">插件中心</th><td>搜索、安装、更新连接和启停插件，提供 GitHub 只读连接。</td><td>共用账号和插件配置，切后台清除未保存的凭据。</td></tr>
+                        <tr><th scope="row">MCP 中心</th><td>新增连接，发现 HTTP / SSE 工具，逐项授权并查看轨迹。</td><td>共用连接和授权。表单适配触屏，切后台清除未保存的 Token。</td></tr>
+                        <tr><th scope="row">Skills 中心</th><td>创建、编辑、启停和导入导出 SKILL.md。</td><td>从系统文件选择器导入，通过系统保存窗口导出 Markdown。</td></tr>
+                        <tr><th scope="row">Google 登录与绑定</th><td>已配置 OAuth 时可登录或绑定 Google 账号，进入原工作区。</td><td>使用系统账号选择器，需登记签名并配置 HTTPS 后端。真实 Google 授权仍待设备验收。</td></tr>
+                        <tr><th scope="row">管理员工作台</th><td>配置、探测模型连接，设置工具与预算，发布 Agent 版本并查看审计。</td><td>共用管理 API，管理列表适配单列，表单和详情采用全屏布局。</td></tr>
+                        <tr><th scope="row">本地模型与离线问答</th><td>连接 API 所在机器上的模型服务，用于服务器侧 Agent 推理。</td><td>带 Pocket SDK 的离线安装包可导入 GGUF，在设备上进行离线问答。</td></tr>
+                    </tbody>
+                </table>
+                <p class="demo-note">功能口径来自 Foogle 的 Web / Android 平台清单和验证记录。界面证据包含协议夹具与 Android 模拟器测试，真实模型验证与设备覆盖按各项记录说明。</p>
+            </section>
             <div class="verification-note">
                 <h3>验证范围</h3>
                 <p>仓库记录了 Web 上的真实 DashScope <code>qwen-plus</code> 工具调用闭环，以及 Android 15 模拟器上的安装、真实工具对话和重开后的历史恢复。Web 全栈回归还使用 Mock 模型覆盖确定性流程。物理手机和 iOS 的完整验收仍待完成。</p>
@@ -84,8 +132,60 @@
                 <p class="project-type">Android SDK / 桌面 CLI · 端侧推理</p>
                 <h2 id="pocket-title">Pocket Inference Lab</h2>
                 <p>Android SDK 通过 JNI 调用 C++ 运行时，桌面 CLI 共用同一套 Session API。设备通过 llama.cpp 载入本地 GGUF 权重，流式输出文本。图像问答需要视觉模型及与之匹配的 <code>mmproj</code> 投影文件。</p>
-                <a class="button" href="./pocket/index.html">按模型查看运行回放</a>
+                <div class="section-links"><a class="button" href="#runtime">按模型查看运行回放</a><a class="button" href="#models">模型与场景</a></div>
             </header>
+            <section id="runtime" class="demo-section replay" aria-labelledby="replay-title">
+                <h3 id="replay-title">模型运行回放</h3>
+                <noscript><p>启用 JavaScript 后可切换样例和播放步骤。</p></noscript>
+                <div class="detail-card" id="replay-controls" hidden>
+                    <div class="replay-selects">
+                        <label>模型<select id="model"></select></label>
+                        <label>运行环境<select id="environment"></select></label>
+                        <label>测试场景<select id="scenario"></select></label>
+                    </div>
+                    <p id="environment-details"></p>
+                    <p id="no-record" role="status" hidden></p>
+                </div>
+                <div class="replay-layout" id="run" hidden>
+                    <section class="detail-card replay-steps" aria-labelledby="steps-title">
+                        <div class="replay-step-heading">
+                            <h4 id="steps-title">执行步骤</h4><p id="step-count"></p>
+                        </div>
+                        <ol id="steps" class="replay-timeline"></ol>
+                        <div id="frame" class="replay-frame" aria-live="polite">
+                            <h4 id="frame-title"></h4>
+                            <p id="frame-detail"></p>
+                            <div id="image-sample" hidden><span id="sample-color" aria-hidden="true"></span><span id="sample-name"></span></div>
+                            <pre id="trace-output"></pre>
+                        </div>
+                        <div class="replay-actions">
+                            <button type="button" class="button" id="previous">上一步</button>
+                            <button type="button" class="button" id="play">播放</button>
+                            <button type="button" class="button" id="next">下一步</button>
+                        </div>
+                    </section>
+                    <aside class="detail-card replay-metrics" aria-labelledby="metrics-title">
+                        <h4 id="metrics-title">记录指标</h4>
+                        <dl id="metrics" class="measurements"></dl>
+                        <p id="record-note"></p>
+                        <p class="demo-note">性能数据仅适用于所选记录。播放间隔用于浏览步骤。</p>
+                    </aside>
+                </div>
+            </section>
+            <section id="models" class="demo-section" aria-labelledby="models-title">
+                <h3 id="models-title">模型与可回放场景</h3>
+                <table class="capability-table coverage-table">
+                    <thead><tr><th scope="col">模型 / 格式</th><th scope="col">已有验证记录</th></tr></thead>
+                    <tbody>
+                        <tr><th scope="row">Gemma 4 E2B IT · Q4_0</th><td>桌面文本、工具、红蓝图像及持续解码。视觉样例使用配套的 Q8_0 mmproj。LLM 评测通过 5 / 5 项。</td></tr>
+                        <tr><th scope="row">Gemma 4 E4B IT · GGUF</th><td>仓库列出的同架构候选兼容模型。公开验证材料中尚缺可回放记录。</td></tr>
+                        <tr><th scope="row">Gemma 3 270M IT · Q8_0</th><td>桌面和 Android 模拟器的文本与本地工具。桌面包含运算、路由偏差和持续解码未达标的记录。</td></tr>
+                        <tr><th scope="row">SmolLM2 135M Instruct · Q4_K_M</th><td>桌面文本冒烟测试。工具参数选择存在不一致，缺少可回放的完整调用轨迹。</td></tr>
+                        <tr><th scope="row">SmolVLM 256M Instruct · Q8_0</th><td>桌面红蓝样例，Android 模拟器红蓝样例和导入绿色 PNG。图像问答均使用匹配的 mmproj。</td></tr>
+                    </tbody>
+                </table>
+                <p class="demo-note">数据出自 Pocket Inference Lab 的验证记录。Android 结果来自 Android 15 x86_64 模拟器。持续性能和发热的真机数据仍待验证。</p>
+            </section>
             <figure class="evidence architecture-figure">
                 <a class="figure-preview" href="./assets/pocket-offline-flow.png" data-image-preview>
                     <img src="./assets/pocket-offline-flow.png" alt="离线推理流程示意图，Android 和桌面入口共用 C++ Session，分别执行纯文本、工具调用与图像问答" width="1560" height="1286" loading="lazy">

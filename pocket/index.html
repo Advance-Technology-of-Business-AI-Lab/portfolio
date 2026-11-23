@@ -3,78 +3,14 @@
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <meta name="description" content="按具体模型、运行环境和测试场景回放 Pocket Inference Lab 的已记录结果。">
-    <title>Pocket Inference Lab · 模型运行回放</title>
+    <title>Pocket Inference Lab · AI 工程作品集</title>
     <link rel="stylesheet" href="../styles.css">
-    <link rel="stylesheet" href="../demos.css">
-    <script src="./replay-data.js" defer></script>
-    <script src="./demo.js" defer></script>
+    <script src="../section-link.js" defer></script>
 </head>
 <body>
-    <a class="skip-link" href="#main">跳到主要内容</a>
-    <header class="site-header">
-        <div class="shell header-inner">
-            <a class="brand" href="../index.html">AI 工程作品集</a>
-            <nav aria-label="页面导航"><a href="#runtime">运行回放</a><a href="#models">模型覆盖</a></nav>
-        </div>
-    </header>
-    <main id="main" class="shell demo-main">
-        <header class="demo-heading">
-            <h1>Pocket Inference Lab</h1>
-            <p>按模型、环境和场景查看一次离线推理。输入、工具参数、观察结果和性能数据来自项目验证记录。播放按步骤重建，在浏览器内使用预先记录的数据。</p>
-        </header>
-        <section id="runtime" class="demo-section replay" aria-labelledby="replay-title">
-            <h2 id="replay-title">模型运行回放</h2>
-            <noscript><p>启用 JavaScript 后可切换样例和播放步骤。</p></noscript>
-            <div class="detail-card" id="replay-controls" hidden>
-                <div class="replay-selects">
-                    <label>模型<select id="model"></select></label>
-                    <label>运行环境<select id="environment"></select></label>
-                    <label>测试场景<select id="scenario"></select></label>
-                </div>
-                <p id="environment-details"></p>
-                <p id="no-record" role="status" hidden></p>
-            </div>
-            <div class="replay-layout" id="run" hidden>
-                <section class="detail-card replay-steps" aria-labelledby="steps-title">
-                    <div class="replay-step-heading">
-                        <h3 id="steps-title">执行步骤</h3><p id="step-count"></p>
-                    </div>
-                    <ol id="steps" class="replay-timeline"></ol>
-                    <div id="frame" class="replay-frame" aria-live="polite">
-                        <h4 id="frame-title"></h4>
-                        <p id="frame-detail"></p>
-                        <div id="image-sample" hidden><span id="sample-color" aria-hidden="true"></span><span id="sample-name"></span></div>
-                        <pre id="trace-output"></pre>
-                    </div>
-                    <div class="replay-actions">
-                        <button type="button" class="button" id="previous">上一步</button>
-                        <button type="button" class="button" id="play">播放</button>
-                        <button type="button" class="button" id="next">下一步</button>
-                    </div>
-                </section>
-                <aside class="detail-card replay-metrics" aria-labelledby="metrics-title">
-                    <h3 id="metrics-title">记录指标</h3>
-                    <dl id="metrics" class="measurements"></dl>
-                    <p id="record-note"></p>
-                    <p class="demo-note">性能数据仅适用于所选记录。播放间隔用于浏览步骤。</p>
-                </aside>
-            </div>
-        </section>
-        <section id="models" class="demo-section" aria-labelledby="models-title">
-            <h2 id="models-title">模型与可回放场景</h2>
-            <table class="capability-table coverage-table">
-                <thead><tr><th scope="col">模型 / 格式</th><th scope="col">已有验证记录</th></tr></thead>
-                <tbody>
-                    <tr><th scope="row">Gemma 4 E2B IT · Q4_0</th><td>桌面文本、工具、红蓝图像及持续解码。视觉样例使用配套的 Q8_0 mmproj。LLM 评测通过 5 / 5 项。</td></tr>
-                    <tr><th scope="row">Gemma 4 E4B IT · GGUF</th><td>仓库列出的同架构候选兼容模型。公开验证材料中尚缺可回放记录。</td></tr>
-                    <tr><th scope="row">Gemma 3 270M IT · Q8_0</th><td>桌面和 Android 模拟器的文本与本地工具。桌面包含运算、路由偏差和持续解码未达标的记录。</td></tr>
-                    <tr><th scope="row">SmolLM2 135M Instruct · Q4_K_M</th><td>桌面文本冒烟测试。工具参数选择存在不一致，缺少可回放的完整调用轨迹。</td></tr>
-                    <tr><th scope="row">SmolVLM 256M Instruct · Q8_0</th><td>桌面红蓝样例，Android 模拟器红蓝样例和导入绿色 PNG。图像问答均使用匹配的 mmproj。</td></tr>
-                </tbody>
-            </table>
-            <p class="demo-note">数据出自 Pocket Inference Lab 的验证记录。Android 结果来自 Android 15 x86_64 模拟器。持续性能和发热的真机数据仍待验证。</p>
-        </section>
+    <main class="shell section">
+        <h1>Pocket Inference Lab</h1>
+        <p><a href="../index.html#runtime" data-section-link="runtime models">在作品集查看</a></p>
     </main>
 </body>
 </html>
