@@ -21,7 +21,7 @@
                 <a href="#foogle">Foogle</a>
                 <a href="#pocket">Pocket</a>
                 <a href="#runtime">运行回放</a>
-                <a href="#integration">联调</a>
+                <a href="#integration">能力案例</a>
                 <a href="#review">源码审阅</a>
             </nav>
         </div>
@@ -291,17 +291,74 @@
             </div>
         </section>
 
-        <section class="integration section" id="integration" aria-labelledby="integration-title">
-            <div>
-                <h2 id="integration-title">Foogle · 高等数学</h2>
-                <p>Foogle 的符号计算功能分支通过 <code>symbolic_math</code> 调用 SymPy，输出精确结果。这里展示仓库中的定积分和求导测试用例。</p>
-                <p class="demo-note">本地 Gemma 4 E2B 另有 Foogle 联调记录。它调用 CSV 分析工具并报告最高延迟为 520 ms。</p>
+        <section class="section project-section" id="integration" aria-labelledby="integration-title">
+            <header class="project-heading">
+                <h2 id="integration-title">实际能力案例</h2>
+                <p>从 Foogle 发起任务、查看执行结果，到 Pocket 准备模型并在设备上断网运行。每个案例标注了它的验证范围。</p>
+            </header>
+            <div class="feature-gallery">
+                <article class="detail-card" id="case-csv" aria-labelledby="case-csv-title">
+                    <p class="project-type">Foogle × Pocket · 本地模型联调</p>
+                    <h3 id="case-csv-title">找出 CSV 里最慢的请求</h3>
+                    <p>Foogle 接收三行延迟数据，运行于本机的 Gemma 4 E2B 选择数据分析工具。Web 调用图显示工具节点，答案通过流式消息返回。</p>
+                    <dl class="measurements">
+                        <div><dt>输入</dt><dd>3 行 CSV</dd></div>
+                        <div><dt>工具</dt><dd>profile_tabular_data</dd></div>
+                        <div><dt>最大延迟</dt><dd>520 ms</dd></div>
+                    </dl>
+                </article>
+                <article class="detail-card" id="case-diff" aria-labelledby="case-diff-title">
+                    <p class="project-type">Foogle · 工具测试</p>
+                    <h3 id="case-diff-title">核对两版文档改了什么</h3>
+                    <p>文档对照工具按行定位变更。预览只显示部分变更块，完整的新增和删除行数仍会计入统计。</p>
+                    <dl class="measurements">
+                        <div><dt>新增</dt><dd>20 行</dd></div>
+                        <div><dt>删除</dt><dd>20 行</dd></div>
+                        <div><dt>变更预览</dt><dd>显示 12 块</dd></div>
+                    </dl>
+                </article>
+                <article class="detail-card" id="case-approval" aria-labelledby="case-approval-title">
+                    <p class="project-type">Foogle · Web 真实模型验证</p>
+                    <h3 id="case-approval-title">提交评审后等待审批</h3>
+                    <p>真实 qwen-plus 任务发起保存评审记录的工具请求。Web 验证记录显示任务进入等待审批，用户可在审批入口处理。</p>
+                    <dl class="measurements">
+                        <div><dt>发起请求</dt><dd>保存评审</dd></div>
+                        <div><dt>工具</dt><dd>save_review_record</dd></div>
+                        <div><dt>观察状态</dt><dd>等待审批</dd></div>
+                    </dl>
+                </article>
+                <article class="detail-card" id="case-device" aria-labelledby="case-device-title">
+                    <p class="project-type">Pocket · Android 模拟器评估</p>
+                    <h3 id="case-device-title">下载前估算设备能否运行模型</h3>
+                    <p>在飞行模式下预览 Gemma 4 E2B 的 2,048 token 配置。评估将权重、上下文缓存及系统预留计入预算。</p>
+                    <dl class="measurements">
+                        <div><dt>预计占用</dt><dd>3.40 GiB</dd></div>
+                        <div><dt>可用内存</dt><dd>2.85 GiB</dd></div>
+                        <div><dt>含系统预留的缺口</dt><dd>0.80 GiB</dd></div>
+                    </dl>
+                </article>
+                <article class="detail-card" id="case-offline" aria-labelledby="case-offline-title">
+                    <p class="project-type">Pocket · Android 模拟器实测</p>
+                    <h3 id="case-offline-title">联网部署，断网继续回答</h3>
+                    <p>App 下载 Gemma 3 270M 权重并校验 SHA-256。重启后开启飞行模式，设备仍用已启用的本地权重回答。</p>
+                    <dl class="measurements">
+                        <div><dt>下载权重</dt><dd>约 292 MB</dd></div>
+                        <div><dt>启动后网络</dt><dd>无默认网络</dd></div>
+                        <div><dt>文本结果</dt><dd>Paris</dd></div>
+                    </dl>
+                    <p><a href="#runtime">打开模型回放</a></p>
+                </article>
+                <article class="detail-card" id="case-math" aria-labelledby="case-math-title">
+                    <p class="project-type">Foogle · 功能分支测试用例</p>
+                    <h3 id="case-math-title">求导与定积分</h3>
+                    <p>符号计算工具用 SymPy 求出精确结果。这组用例覆盖一项定积分和通过 MCP 执行的求导。</p>
+                    <dl class="measurements">
+                        <div><dt>工具</dt><dd>symbolic_math</dd></div>
+                        <div><dt>定积分</dt><dd>∫₀^π sin(x) dx = 2</dd></div>
+                        <div><dt>求导</dt><dd>d(x³)/dx = 3x²</dd></div>
+                    </dl>
+                </article>
             </div>
-            <ol class="trace" aria-label="符号计算示例">
-                <li><span>定积分</span><code>∫₀^π sin(x) dx = 2</code></li>
-                <li><span>求导</span><code>d(x³)/dx = 3x²</code></li>
-                <li><span>计算引擎</span><code>SymPy</code></li>
-            </ol>
         </section>
     </main>
 
