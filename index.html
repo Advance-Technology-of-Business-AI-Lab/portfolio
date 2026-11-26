@@ -293,13 +293,14 @@
 
         <section class="integration section" id="integration" aria-labelledby="integration-title">
             <div>
-                <h2 id="integration-title">Foogle 接入本地 Gemma</h2>
-                <p>Foogle 通过 OpenAI 兼容接口连接 <code>llama-server</code> 上的 Gemma 4 E2B。模型提出计算器调用，Foogle 的 Agent 执行工具，浏览器收到了流式回复，并在调用图中显示 <code>calculator</code> 节点。</p>
+                <h2 id="integration-title">Foogle · 高等数学</h2>
+                <p>Foogle 的符号计算功能分支通过 <code>symbolic_math</code> 调用 SymPy，输出精确结果。这里展示仓库中的定积分和求导测试用例。</p>
+                <p class="demo-note">本地 Gemma 4 E2B 另有 Foogle 联调记录。它调用 CSV 分析工具并报告最高延迟为 520 ms。</p>
             </div>
-            <ol class="trace" aria-label="本地联调步骤">
-                <li><span>发送任务</span><code>17 × 23</code></li>
-                <li><span>调用工具</span><code>calculator</code></li>
-                <li><span>返回结果</span><code>391</code></li>
+            <ol class="trace" aria-label="符号计算示例">
+                <li><span>定积分</span><code>∫₀^π sin(x) dx = 2</code></li>
+                <li><span>求导</span><code>d(x³)/dx = 3x²</code></li>
+                <li><span>计算引擎</span><code>SymPy</code></li>
             </ol>
         </section>
     </main>
